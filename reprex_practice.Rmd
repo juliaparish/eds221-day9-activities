@@ -45,6 +45,28 @@ mack_creek_lengths <- mack_creek_vertebrates %>%
   ungroup()
 ```
 
+```{r}
+library(tidyverse)
+library(reprex)
+library(dplyr)
+
+df_1 <- tribble(
+  ~species, ~common_name, ~dbh,
+  "Quercus suber", "Cork oak", 8.2,
+  "Lynothamnus floribundus", "Catalina Ironwood", 2.6,
+  "Pinus torreyana", "Torrey pine", 26.9
+  )
+
+# Example 1 is throwing an error because the code line to mutate all characters to lower case is missing a parenthesis after "as.character".
+
+# df <- df_1 %>% mutate(across(where(is.character, tolower))
+
+df_fixed <- df_1 %>% 
+  mutate(across(where(is.character), tolower))
+
+```
+
+
 ### reprex 2
 
 Identify what is causing the problem in the code below (there's only one thing). Then, create a very simple reprex that would help yourself, future you, or a colleague fix the problem. **Post your reprex as an issue in your own fork on GitHub.**
@@ -60,5 +82,28 @@ mack_creek_vertebrates %>%
          labs(x = "Cutthroat trout length (cm)",
               y = "Weight (g)")
 ```
+
+```{r}
+library(tidyverse)
+library(reprex)
+
+df2 <- tribble(
+  ~common_name, ~species_name, ~total_count,
+  "white sage", "salvia apiana", 300,
+  "black sage", "salvia mellifera", 1000,
+  "pitcher sage", "lepechinia fragrans", 20,
+)
+
+# Example 2 - ggplot code was throwing an error in the geom_point code line as the aesthetic size was mis-typed as 'shape' instead of 'size'. 
+
+# Error line: geom_point(aes(shape = 12), color = "purple") 
+
+df2_fixed <- df2 %>% 
+  ggplot(aes(x = common_name, y = species_name)) +
+  geom_point(aes(size = 12), color = "purple")
+
+```
+
+
 
 ## End
